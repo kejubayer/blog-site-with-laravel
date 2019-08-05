@@ -46,8 +46,9 @@
 
 <main role="main" class="container">
     <div class="row">
-
-        @yield('main')
+        <div class="col-md-8 blog-main">
+            @yield('main')
+        </div>
 
         @include('frontend.partials._sidebar')
 

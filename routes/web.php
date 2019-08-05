@@ -13,6 +13,8 @@
 
 Route::name('frontend.')->namespace('Frontend')->group(function (){
     Route::get('/', 'HomeController@showHome')->name('home');
+    Route::get('/register', 'HomeController@showRegistrationForm')->name('register');
+    Route::post('/register', 'HomeController@processRegistration');
     Route::get('/post', 'HomeController@post')->name('post');
 });
 
