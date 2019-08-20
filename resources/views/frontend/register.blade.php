@@ -3,7 +3,7 @@
 @section('main')
     <h2 class="text-center">Register Your Account</h2>
     @if(session()->has('message'))
-        <div class="alert alert-success">
+        <div class="alert alert-{{session('type')}}">
             {{ session('message') }}
         </div>
         @endif
@@ -13,11 +13,25 @@
             <label for="inputFirstName">First Name</label>
             <input type="text" name="first_name" class="form-control" value="{{old("first_name")}}" id="inputFirstName"
                    placeholder="First Name">
+            @error('first_name')
+            <div class="alert alert-danger">{{  $errors->first('first_name')}}</div>
+            @enderror
         </div>
         <div class="form-group">
             <label for="inputLastName">Last Name</label>
             <input type="text" name="last_name" class="form-control" value="{{old("last_name")}}" id="inputLastName"
                    placeholder="Last Name">
+            @error('last_name')
+            <div class="alert alert-danger">{{  $errors->first('last_name')}}</div>
+            @enderror
+        </div>
+        <div class="form-group">
+            <label for="inputUsername">Username</label>
+            <input type="text" name="username" class="form-control" value="{{old("username")}}" id="inputUsername"
+                   placeholder="Username">
+            @error('username')
+            <div class="alert alert-danger">{{  $errors->first('username')}}</div>
+            @enderror
         </div>
         <div class="form-group">
             <label for="inputEmail">Email</label>
@@ -32,6 +46,13 @@
         <div class="form-group">
             <label for="inputPassword">Password</label>
             <input type="password" name="password" class="form-control" id="inputPassword" placeholder="Password">
+            @error('password')
+            <div class="alert alert-danger">{{  $errors->first('password')}}</div>
+            @enderror
+        </div>
+        <div class="form-group">
+            <label for="inputConfirmPassword">Confirm Password</label>
+            <input type="password" name="password_confirmation" class="form-control" id="inputConfirmPassword" placeholder="Password">
             @error('password')
             <div class="alert alert-danger">{{  $errors->first('password')}}</div>
             @enderror
