@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
-use App\User;
+use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
 
@@ -30,27 +30,35 @@ class AuthController extends Controller
             'username' => 'required|unique:users,username',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|min:6|confirmed',
-            'photo' => 'required|image|max:10240',
+            'photo' => 'image|max:10240',
         ]);
 
-    $photo = $request->file('photo');
-    $file_name = uniqid('photo_', true) . time() . '.' . $photo->getClientOriginalExtension();
+        if ($request->hasFile('photo')){
+            $photo = $request->file('photo');
+            $file_name = uniqid('photo_', true) . time() . '.' . $photo->getClientOriginalExtension();
 
-    if ($photo->isValid()) {
-        $photo->storeAs('images', $file_name);
-    }
+            if ($photo->isValid()) {
+                $photo->storeAs('images', $file_name);
+            }
+            $data = [
+                'first_name' => $request->input('first_name'),
+                'last_name' => $request->input('last_name'),
+                'username' => strtolower(trim($request->input('username'))),
+                'email' => strtolower($request->input('email')),
+                'password' => bcrypt($request->input('password')),
+                'photo' => $file_name,
 
+            ];
+        }else{
+            $data = [
+                'first_name' => $request->input('first_name'),
+                'last_name' => $request->input('last_name'),
+                'username' => strtolower(trim($request->input('username'))),
+                'email' => strtolower($request->input('email')),
+                'password' => bcrypt($request->input('password'))
 
-    $data = [
-        'first_name' => $request->input('first_name'),
-        'last_name' => $request->input('last_name'),
-        'username' => strtolower(trim($request->input('username'))),
-        'email' => strtolower($request->input('email')),
-        'password' => bcrypt($request->input('password')),
-        'photo' => $file_name,
-
-    ];
-
+            ];
+        }
 
         try {
             User::create($data);

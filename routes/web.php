@@ -11,6 +11,9 @@
 |
 */
 
+
+use Illuminate\Support\Facades\Route;
+
 Route::name('frontend.')->namespace('Frontend')->group(function (){
     Route::get('/', 'HomeController@showHome')->name('home');
 
@@ -27,9 +30,16 @@ Route::name('frontend.')->namespace('Frontend')->group(function (){
     Route::post('/profile/password','AuthController@updatePassword')->name('update_password');
 
     Route::get('/logout','AuthController@logout')->name('logout');
+    //categories
+    Route::get('/categories', 'CategoryController@index')->name('categories.index');
+    Route::get('/categories/add', 'CategoryController@create')->name('categories.create');
+    Route::post('/categories', 'CategoryController@store')->name('categories.store');
+    Route::get('/categories/{id}', 'CategoryController@show')->name('categories.show');
+    Route::get('/categories/{id}/edit', 'CategoryController@edit')->name('categories.edit');
+    Route::put('/categories/{id}', 'CategoryController@update')->name('categories.update');
+    Route::delete('/categories/{id}', 'CategoryController@delete')->name('categories.delete');
 
-
-
+    //post
     Route::get('/post', 'HomeController@post')->name('post');
 });
 
